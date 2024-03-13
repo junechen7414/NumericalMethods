@@ -1,19 +1,14 @@
-clear,clc
-fprintf('index\txr\t\t\tea\n');
-msecant(@(x) x^3-6*x^2+11*x-6.1,1,10^-6);
-msecant(@(x) x^3-6*x^2+11*x-6.1,2,10^-6);
-msecant(@(x) x^3-6*x^2+11*x-6.1,3,10^-6);
-
-function msecant(func,xr,delta,es,varargin)
-if nargin<4|isempty(es), es=0.0001;end
-iter = 0;
-while(1)
-    xrold=xr;    
-    xr= xr - delta*xr*func(xr)/(func(xr+delta*xr)-func(xr));
-    if xr~=0 ,ea= abs((xr-xrold)/xr)*100; end    
-    fprintf("%d\t\t%f\t%f\n",iter+1,xr,ea);
-    iter=iter+1;
-    if ea<=es ,break,end
-end
-    fprintf('modified secant Root: %f\n',xr);
-end
+clear,clc;
+x=linspace(-10,15)';
+y =[9.5+0.5.*x (18.8+1.02.*x)./2];
+plot(x,y),grid;
+A = [0.5 -1;1.02 -2];
+b=[-9.5 -18.8];
+disp('Determinant:');
+disp(det(A));
+%A(1,1)=0.52;
+x1= (A(2,2)*b(1) -A(1,2)*b(2))/det(A);
+x2= (A(1,1)*b(2)-A(2,1)*b(1))/det(A);
+disp('Solve by the elimination of unknowns');
+disp(x1);
+disp(x2);
