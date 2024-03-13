@@ -1,11 +1,17 @@
-sine(0.9,8); %use sine function
+% 1.(a)
+%format long; 3digit chopping format short (default) is good
+y = 1.37^3 - 7*1.37^2 + 8*1.37 -0.35;
+app= chop3(y);
+et = abs((y-app)/y)*100;
+fprintf("et = %.3f %%\n",et);
 
-function sine(x,index)
-%sine: infinite sine series
-sinx = 0; sinpoint9 = sin(0.9); 
-fprintf('index  approx.value  \terror\n');
- for i = 0 : index-1
-     sinx = sinx + ((-1)^i/factorial(2*i+1)* x^ (2*i +1));
-     fprintf('  %d\t\t%f\t\t%f%%\n',i+1,sinx,abs(sinpoint9-sinx)*sinpoint9^-1 *100);     
- end
+% 1.(b)
+correct =((1.37-7)*1.37 + 8)*1.37-0.35;
+%app = chop3(correct);
+app = chop3((chop3((1.37-7)*1.37)+8)*1.37)-0.35;
+et = abs((correct-app)/correct)*100;
+fprintf("et = %.3f %%\n",et);
+
+function y = chop3(x)
+    y = floor(x*1000)/1000;
 end
