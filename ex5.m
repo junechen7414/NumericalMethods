@@ -1,13 +1,26 @@
-fm = @(m,cd,t,v) sqrt(9.81*m/cd)*tanh(sqrt(9.81*cd/m)*t)-v;
+volume = 4/3 * pi * 1^3; %ball volume
+volume = volume * 1000/(1000+200) ; %ball volume on the water using two density
+fm = @(V,h,r) V-pi*(h^2)*(r-h/3);
+h = linspace(-1,2.5);
+f = volume -pi.* (h.^2) .* (1-h/3);
+p= plot(h,f);grid;
+datatip(p,-0.9,0);
+datatip(p,1.48,0);
+datatip(p,2.4,0);
 fprintf('index\txl\t\t\txu\t\t\txr\t\t\tea\n');
-bisect(@(cd) fm(95,cd,9,46),0.2,0.5,0.1);
+fprintf("---root1---\n")
+bisect(@(h) fm(volume,h,1),-1,-0.5,0.5);
+fprintf("---root2---\n")
+bisect(@(h) fm(volume,h,1),1,2,0.5);
+fprintf("---root3---\n")
+bisect(@(h) fm(volume,h,1),2,2.5,0.5);
+
 function bisect(func,xl,xu,es,varargin)
 if nargin < 3 , error('at least 3 input arguments'),end
 test = func(xl,varargin{:}) * func(xu,varargin{:});
 if test > 0, error('no sign change'),end
 if nargin < 4 | isempty(es),es=0.0001;end
 iter = 0;xr=xl;ea = 100;
-fprintf("---bisection method---\n")
 while(1)
     xrold=xr;
     xr=(xl+xu)/2;    
@@ -24,4 +37,5 @@ while(1)
     end
     if ea<=es  , break,end
 end
+fprintf('root : %f\n',xr);
 end

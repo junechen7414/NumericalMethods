@@ -1,17 +1,27 @@
-% 1.(a)
-%format long; 3digit chopping format short (default) is good
-y = 1.37^3 - 7*1.37^2 + 8*1.37 -0.35;
-app= chop3(y);
-et = abs((y-app)/y)*100;
-fprintf("et = %.3f %%\n",et);
+k = 0;
+for i = 0:20
+    xb=incsearch(@(x) cos(2*x)+sin(6*x),1,6,k);
+    k = k +1;
+    disp(xb);
+end
+function xb = incsearch(func,xmin,xmax,ns)
+if nargin < 3 , error('at least 3 arguments required'), end
+if nargin<4,ns=50; end
 
-% 1.(b)
-correct =((1.37-7)*1.37 + 8)*1.37-0.35;
-%app = chop3(correct);
-app = chop3((chop3((1.37-7)*1.37)+8)*1.37)-0.35;
-et = abs((correct-app)/correct)*100;
-fprintf("et = %.3f %%\n",et);
-
-function y = chop3(x)
-    y = floor(x*1000)/1000;
+x= linspace(xmin,xmax,ns);
+f= func(x);
+nb = 0; xb=[];
+for k=1:length(x)-1
+    if sign(f(k))~=sign(f(k+1))
+        nb=nb+1;
+        xb(nb,1)=x(k);
+        xb(nb,2)=x(k+1);
+    end
+end
+if isempty(xb)
+    disp('no brackets found');
+else
+    disp("number of brackets:");
+    disp(nb);      
+end
 end
