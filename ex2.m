@@ -1,14 +1,19 @@
-clear,clc;
-x=linspace(-10,15)';
-y =[9.5+0.5.*x (18.8+1.02.*x)./2];
-plot(x,y),grid;
-A = [0.5 -1;1.02 -2];
-b=[-9.5 -18.8];
-disp('Determinant:');
-disp(det(A));
-%A(1,1)=0.52;
-x1= (A(2,2)*b(1) -A(1,2)*b(2))/det(A);
-x2= (A(1,1)*b(2)-A(2,1)*b(1))/det(A);
-disp('Solve by the elimination of unknowns');
-disp(x1);
-disp(x2);
+clear,clc
+A = [15 -3 -1;-3 18 -6;-4 -1 12];
+b = [4000;1200;2350];
+[m n] = size(A);
+if m~=n, error('Matrix A must be squrare'); end
+I = eye(n);
+[L,U,P] = LU_pivot(A);
+for i = 1:n
+    [d,x] = forward_back(L,U,I(:,i),P);
+    inverse(:,i) = x;
+end
+
+disp('A inverse');
+disp(inverse);
+disp('matlab inv(A)');
+disp(inv(A));
+c= inverse * b;
+disp('x :');
+disp(c);
