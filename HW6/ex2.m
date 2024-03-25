@@ -1,0 +1,14 @@
+clear,clc;
+x=linspace(-10,15)';
+y =[9.5+0.5.*x (18.8+1.02.*x)./2];
+plot(x,y),grid;
+A = [0.5 -1;1.02 -2];
+b=[-9.5 -18.8];
+disp('Determinant:');
+disp(det(A));
+%A(1,1)=0.52;
+x1= (A(2,2)*b(1) -A(1,2)*b(2))/det(A);
+x2= (A(1,1)*b(2)-A(2,1)*b(1))/det(A);
+disp('Solve by the elimination of unknowns');
+disp(x1);
+disp(x2);
